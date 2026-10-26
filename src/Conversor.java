@@ -1,4 +1,6 @@
 import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class Conversor {
     private JPanel ventana;
@@ -24,6 +26,40 @@ public class Conversor {
     private JButton btn0;
     private JButton btn1;
     private JButton btnReset;
+    private JLabel lblResultado;
+
+    public Conversor() {
+        rdoBtnBin.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(rdoBtnBin.isSelected()){
+                    btn2.setEnabled(false);
+                    btn3.setEnabled(false);
+                    btn4.setEnabled(false);
+                    btn5.setEnabled(false);
+                    btn6.setEnabled(false);
+                    btn7.setEnabled(false);
+                    btn8.setEnabled(false);
+                    btn9.setEnabled(false);
+                    btnA.setEnabled(false);
+                    btnB.setEnabled(false);
+                    btnC.setEnabled(false);
+                    btnD.setEnabled(false);
+                    btnE.setEnabled(false);
+                    btnF.setEnabled(false);
+
+
+
+                }
+            }
+        });
+    }
+
+    public void gestionBotonesEnabled(JRadioButton rdoBtn, int tipo){
+        if(rdoBtn.isSelected()){
+
+        }
+    }
 
     public static void main(String[] args) {
         JFrame frame = new JFrame("Conversor");
