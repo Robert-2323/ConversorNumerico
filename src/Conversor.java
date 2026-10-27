@@ -27,22 +27,32 @@ public class Conversor {
     private JButton btn1;
     private JButton btnReset;
     private JLabel lblResultado;
+    private int tipoPasado=-1;
 
 
 
     public Conversor() {
 
-        //---------Listener Radio Buttons-------
+
 
         //Boton seleccionado por defecto
         int tipo=10;
         rdoBtnDec.setSelected(true);
         gestionBotonesEnabled(rdoBtnDec,tipo);
+        tipoPasado=10;
+
+
+
+
+        //---------Listener Radio Buttons-------
 
         rdoBtnBin.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 gestionBotonesEnabled(rdoBtnBin,0);
+                conversion(rdoBtnDec,lblResultado,0,tipoPasado);
+                tipoPasado=0;
+
             }
         });
 
@@ -50,18 +60,27 @@ public class Conversor {
             @Override
             public void actionPerformed(ActionEvent e) {
                 gestionBotonesEnabled(rdoBtnOct,8);
+                conversion(rdoBtnDec,lblResultado,8,tipoPasado);
+                tipoPasado=8;
+
             }
         });
         rdoBtnDec.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 gestionBotonesEnabled(rdoBtnDec,10);
+                conversion(rdoBtnDec,lblResultado,10,tipoPasado);
+                tipoPasado=10;
+
             }
         });
         rdoBtnHex.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 gestionBotonesEnabled(rdoBtnHex,16);
+                conversion(rdoBtnDec,lblResultado,16,tipoPasado);
+                tipoPasado=16;
+
             }
         });
 
@@ -163,6 +182,17 @@ public class Conversor {
                 gestionButtons(btnF,lblResultado);
             }
         });
+
+        btnReset.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                lblResultado.setText("0");
+                int tipo=10;
+                rdoBtnDec.setSelected(true);
+                gestionBotonesEnabled(rdoBtnDec,tipo);
+                tipoPasado=10;
+            }
+        });
     }
 
 
@@ -190,7 +220,7 @@ public class Conversor {
         if(rdoBtn.isSelected() && tipo==0){
             btn0.setEnabled(true);
             btn1.setEnabled(true);
-            conversion(rdoBtn,lblResultado,tipo);
+
         }
         if (rdoBtn.isEnabled() && tipo==8){
             btn0.setEnabled(true);
@@ -201,7 +231,7 @@ public class Conversor {
             btn5.setEnabled(true);
             btn6.setEnabled(true);
             btn7.setEnabled(true);
-            conversion(rdoBtn,lblResultado,tipo);
+
         }
         if(rdoBtn.isEnabled() && tipo==10){
             btn0.setEnabled(true);
@@ -214,7 +244,7 @@ public class Conversor {
             btn7.setEnabled(true);
             btn8.setEnabled(true);
             btn9.setEnabled(true);
-            conversion(rdoBtn,lblResultado,tipo);
+
         }
         if (rdoBtn.isEnabled() && tipo==16){
             btn0.setEnabled(true);
@@ -233,32 +263,80 @@ public class Conversor {
             btnD.setEnabled(true);
             btnE.setEnabled(true);
             btnF.setEnabled(true);
-            conversion(rdoBtn,lblResultado,tipo);
+
         }
 
     }
 
     public void gestionButtons(JButton btn,JLabel lbl){
         String text=lbl.getText();
+
+        if (lbl.getText().equals("0")){
+            text="";
+            lbl.setText(btn.getText());
+        }
+
         lbl.setText(text+btn.getText());
     }
 
-    public void conversion(JRadioButton rdoBtn,JLabel lbl, int tipoActual,int tipo){
-        int num=Integer.parseInt(lbl.getText());
-        if(rdoBtn.isEnabled() && tipoActual==0){
-            if (tipo==0){
+    public void conversion(JRadioButton rdoBtn,JLabel lbl, int tipoActual,int tipoPasado){
+        String texto=lbl.getText();
 
+        if(rdoBtn.isEnabled() && tipoActual==0){
+            if(tipoPasado==8){
+                int n=Integer.parseInt(texto,8);
+                lbl.setText(Integer.toBinaryString(n));
             }
-            lbl.setText(Integer.toBinaryString(num));
+            if(tipoPasado==10){
+                int n=Integer.parseInt(texto,10);
+                lbl.setText(Integer.toBinaryString(n));
+            }
+            if (tipoPasado==16){
+                int n=Integer.parseInt(texto,16);
+                lbl.setText(Integer.toBinaryString(n));
+            }
         }
         if (rdoBtn.isEnabled() && tipoActual==8){
-            lbl.setText(Integer.toOctalString(num));
+            if(tipoPasado==0){
+                int n=Integer.parseInt(texto,2);
+                lbl.setText(Integer.toOctalString(n));
+            }
+            if(tipoPasado==10){
+                int n=Integer.parseInt(texto,10);
+                lbl.setText(Integer.toOctalString(n));
+            }
+            if (tipoPasado==16){
+                int n=Integer.parseInt(texto,16);
+                lbl.setText(Integer.toOctalString(n));
+            }
         }
         if (rdoBtn.isEnabled() && tipoActual==10){
-            lbl.setText(Integer.toString(num));
+            if(tipoPasado==0){
+                int n=Integer.parseInt(texto,2);
+                lbl.setText(Integer.toString(n));
+            }
+            if(tipoPasado==8){
+                int n=Integer.parseInt(texto,8);
+                lbl.setText(Integer.toString(n));
+            }
+            if (tipoPasado==16){
+                int n=Integer.parseInt(texto,16);
+                lbl.setText(Integer.toString(n));
+            }
         }
         if (rdoBtn.isEnabled() && tipoActual==16){
-            lbl.setText(Integer.toHexString(num));
+            if(tipoPasado==0){
+                int n=Integer.parseInt(texto,2);
+                lbl.setText(Integer.toHexString(n));
+            }
+            if(tipoPasado==8){
+                int n=Integer.parseInt(texto,8);
+                lbl.setText(Integer.toHexString(n));
+            }
+            if (tipoPasado==10){
+                int n=Integer.parseInt(texto,10);
+                lbl.setText(Integer.toHexString(n));
+            }
         }
     }
 
