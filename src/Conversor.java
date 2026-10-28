@@ -27,21 +27,19 @@ public class Conversor {
     private JButton btn1;
     private JButton btnReset;
     private JLabel lblResultado;
+    private JButton AUTORButton;
+    private JButton SALIRButton;
     private int tipoPasado=-1;
 
 
 
     public Conversor() {
 
-
-
         //Boton seleccionado por defecto
         int tipo=10;
         rdoBtnDec.setSelected(true);
         gestionBotonesEnabled(rdoBtnDec,tipo);
         tipoPasado=10;
-
-
 
 
         //---------Listener Radio Buttons-------
@@ -193,6 +191,21 @@ public class Conversor {
                 tipoPasado=10;
             }
         });
+        AUTORButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JOptionPane.showMessageDialog(null,"AUTOR: Roberto Rodriguez Riaza");
+            }
+        });
+        SALIRButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int option=JOptionPane.showConfirmDialog(null,"¿Estas seguro de que quieres salir?","SALIR",JOptionPane.YES_NO_OPTION);
+                if (option==JOptionPane.YES_OPTION){
+                    System.exit(0);
+                }
+            }
+        });
     }
 
 
@@ -281,62 +294,66 @@ public class Conversor {
 
     public void conversion(JRadioButton rdoBtn,JLabel lbl, int tipoActual,int tipoPasado){
         String texto=lbl.getText();
-
-        if(rdoBtn.isEnabled() && tipoActual==0){
-            if(tipoPasado==8){
-                int n=Integer.parseInt(texto,8);
-                lbl.setText(Integer.toBinaryString(n));
+        try {
+            if (rdoBtn.isEnabled() && tipoActual == 0) {
+                if (tipoPasado == 8) {
+                    int n = Integer.parseInt(texto, 8);
+                    lbl.setText(Integer.toBinaryString(n));
+                }
+                if (tipoPasado == 10) {
+                    int n = Integer.parseInt(texto, 10);
+                    lbl.setText(Integer.toBinaryString(n));
+                }
+                if (tipoPasado == 16) {
+                    int n = Integer.parseInt(texto, 16);
+                    lbl.setText(Integer.toBinaryString(n));
+                }
             }
-            if(tipoPasado==10){
-                int n=Integer.parseInt(texto,10);
-                lbl.setText(Integer.toBinaryString(n));
+            if (rdoBtn.isEnabled() && tipoActual == 8) {
+                if (tipoPasado == 0) {
+                    int n = Integer.parseInt(texto, 2);
+                    lbl.setText(Integer.toOctalString(n));
+                }
+                if (tipoPasado == 10) {
+                    int n = Integer.parseInt(texto, 10);
+                    lbl.setText(Integer.toOctalString(n));
+                }
+                if (tipoPasado == 16) {
+                    int n = Integer.parseInt(texto, 16);
+                    lbl.setText(Integer.toOctalString(n));
+                }
             }
-            if (tipoPasado==16){
-                int n=Integer.parseInt(texto,16);
-                lbl.setText(Integer.toBinaryString(n));
+            if (rdoBtn.isEnabled() && tipoActual == 10) {
+                if (tipoPasado == 0) {
+                    int n = Integer.parseInt(texto, 2);
+                    lbl.setText(Integer.toString(n));
+                }
+                if (tipoPasado == 8) {
+                    int n = Integer.parseInt(texto, 8);
+                    lbl.setText(Integer.toString(n));
+                }
+                if (tipoPasado == 16) {
+                    int n = Integer.parseInt(texto, 16);
+                    lbl.setText(Integer.toString(n));
+                }
             }
-        }
-        if (rdoBtn.isEnabled() && tipoActual==8){
-            if(tipoPasado==0){
-                int n=Integer.parseInt(texto,2);
-                lbl.setText(Integer.toOctalString(n));
+            if (rdoBtn.isEnabled() && tipoActual == 16) {
+                if (tipoPasado == 0) {
+                    int n = Integer.parseInt(texto, 2);
+                    lbl.setText(Integer.toHexString(n));
+                }
+                if (tipoPasado == 8) {
+                    int n = Integer.parseInt(texto, 8);
+                    lbl.setText(Integer.toHexString(n));
+                }
+                if (tipoPasado == 10) {
+                    int n = Integer.parseInt(texto, 10);
+                    lbl.setText(Integer.toHexString(n));
+                }
             }
-            if(tipoPasado==10){
-                int n=Integer.parseInt(texto,10);
-                lbl.setText(Integer.toOctalString(n));
-            }
-            if (tipoPasado==16){
-                int n=Integer.parseInt(texto,16);
-                lbl.setText(Integer.toOctalString(n));
-            }
-        }
-        if (rdoBtn.isEnabled() && tipoActual==10){
-            if(tipoPasado==0){
-                int n=Integer.parseInt(texto,2);
-                lbl.setText(Integer.toString(n));
-            }
-            if(tipoPasado==8){
-                int n=Integer.parseInt(texto,8);
-                lbl.setText(Integer.toString(n));
-            }
-            if (tipoPasado==16){
-                int n=Integer.parseInt(texto,16);
-                lbl.setText(Integer.toString(n));
-            }
-        }
-        if (rdoBtn.isEnabled() && tipoActual==16){
-            if(tipoPasado==0){
-                int n=Integer.parseInt(texto,2);
-                lbl.setText(Integer.toHexString(n));
-            }
-            if(tipoPasado==8){
-                int n=Integer.parseInt(texto,8);
-                lbl.setText(Integer.toHexString(n));
-            }
-            if (tipoPasado==10){
-                int n=Integer.parseInt(texto,10);
-                lbl.setText(Integer.toHexString(n));
-            }
+        }catch (NumberFormatException e){
+            JOptionPane.showMessageDialog(null,"El numero introducido no es valido");
+            btnReset.doClick();
         }
     }
 
